@@ -1,0 +1,25 @@
+spring:
+  application:
+    name: OAUTH-SERVICE
+  security:
+    oauth2:
+      client:
+        registration:
+          keycloak:
+            client-id: desktop-client
+            client-secret: 9hrpDdovKzF2RpUPxe4ra3aDG9043NqY
+            scope: openid,profile,email
+            redirect-uri: http://localhost:8082/login/oauth2/code/keycloak
+        provider:
+          keycloak:
+            issuer-uri: http://localhost:8448/realms/food-ordering-realm
+  datasource:
+    url: jdbc:postgresql://localhost:5432/food_order
+    username: postgres
+    password: root
+    driver-class-name:
+  jpa:
+    hibernate:
+      ddl-auto: update
+server:
+  port: 8082
