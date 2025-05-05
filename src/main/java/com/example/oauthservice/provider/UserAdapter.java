@@ -1,6 +1,6 @@
 package com.example.oauthservice.provider;
 
-import com.example.oauthservice.entity.UserEntity;
+import com.example.oauthservice.entity.UsersEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.keycloak.common.util.MultivaluedHashMap;
 import org.keycloak.component.ComponentModel;
@@ -9,7 +9,6 @@ import org.keycloak.credential.CredentialModel;
 import org.keycloak.models.KeycloakSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.SubjectCredentialManager;
-import org.keycloak.models.UserModel;
 import org.keycloak.storage.adapter.AbstractInMemoryUserAdapter;
 
 import java.util.HashSet;
@@ -20,10 +19,10 @@ import java.util.stream.Stream;
 
 @Slf4j
 public class UserAdapter extends AbstractInMemoryUserAdapter {
-    private final UserEntity user;
+    private final UsersEntity user;
     private final Set<String> requiredActions = new HashSet<>();
 
-    public UserAdapter(KeycloakSession session, RealmModel realm, ComponentModel storageProviderModel, UserEntity user) {
+    public UserAdapter(KeycloakSession session, RealmModel realm, ComponentModel storageProviderModel, UsersEntity user) {
         super(session, realm, String.valueOf(storageProviderModel));
         this.user = user;
     }

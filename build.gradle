@@ -17,26 +17,28 @@ repositories {
 	mavenCentral()
 }
 
-configurations {
-	all*.exclude group: 'org.hibernate', module: 'hibernate-core'
-}
+//configurations {
+//	all*.exclude group: 'org.hibernate.orm', module: 'hibernate-core'
+//}
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
-	implementation 'org.springframework.boot:spring-boot-starter-web:3.4.5'
-	compileOnly 'org.keycloak:keycloak-adapter-core:25.0.3'
+	compileOnly 'org.springframework.boot:spring-boot-starter-data-jpa'
+	compileOnly 'org.springframework.boot:spring-boot-starter-oauth2-client'
+	compileOnly 'org.springframework.boot:spring-boot-starter-web:3.4.5'
+	compileOnly 'org.hibernate.orm:hibernate-core:6.6.13.Final'
 	compileOnly 'org.keycloak:keycloak-core:26.2.2'
-	compileOnly 'org.keycloak:keycloak-model-legacy:19.0.3'
+	compileOnly 'org.keycloak:keycloak-quarkus-server:26.2.2'
+	compileOnly 'org.keycloak:keycloak-server-spi:26.2.2'
+	compileOnly 'org.keycloak:keycloak-server-spi-private:26.2.2'
 	compileOnly 'org.projectlombok:lombok:1.18.30'
 	annotationProcessor 'org.projectlombok:lombok:1.18.30'
-	implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
-	implementation 'org.springframework.boot:spring-boot-starter-security'
+	compileOnly 'jakarta.persistence:jakarta.persistence-api:3.2.0'
+	compileOnly 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
+	compileOnly 'org.springframework.boot:spring-boot-starter-security'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 	runtimeOnly 'org.postgresql:postgresql'
-	implementation 'org.hibernate.orm:hibernate-core:6.4.4.Final'
 }
 
 bootJar {
@@ -45,14 +47,19 @@ bootJar {
 
 jar {
 	enabled = true
-	archiveClassifier = ''
-	from {
-		configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
-	}
+	zip64 = true
+
 	duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 	exclude 'META-INF/spring*'
 	exclude 'META-INF/maven*'
 	exclude 'META-INF/additional-spring*'
 	exclude 'META-INF/versions/*'
 	exclude 'META-INF/services/org.hibernate*'
+	manifest {
+		attributes(
+				'Implementation-Title': project.name,
+				'Implementation-Version': project.version
+		)
+	}
 }
+

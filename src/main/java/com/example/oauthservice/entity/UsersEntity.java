@@ -23,7 +23,7 @@ import java.util.Objects;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class UserEntity extends BaseAuditEntity {
+public class UsersEntity extends BaseAuditEntity {
 
     @NonNull
     @Column(unique = true)
@@ -50,7 +50,7 @@ public class UserEntity extends BaseAuditEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
-        UserEntity that = (UserEntity) o;
+        UsersEntity that = (UsersEntity) o;
         return Objects.equals(username, that.username);
     }
 

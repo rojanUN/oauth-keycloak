@@ -1,6 +1,6 @@
 package com.example.oauthservice.provider;
 
-import com.example.oauthservice.entity.UserEntity;
+import com.example.oauthservice.entity.UsersEntity;
 import com.example.oauthservice.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.keycloak.component.ComponentModel;
@@ -47,10 +47,10 @@ public class CustomUserProvider implements UserStorageProvider, UserLookupProvid
         }
 
         UserCredentialModel cred = (UserCredentialModel) credentialInput;
-        Optional<UserEntity> userOpt = userRepository.findById(Long.parseLong(StorageId.externalId(userModel.getId())));
+        Optional<UsersEntity> userOpt = userRepository.findById(Long.parseLong(StorageId.externalId(userModel.getId())));
         
         if (userOpt.isPresent()) {
-            UserEntity user = userOpt.get();
+            UsersEntity user = userOpt.get();
             user.setPassword(passwordEncoder.encode(cred.getChallengeResponse()));
             userRepository.save(user);
             return true;
@@ -84,12 +84,12 @@ public class CustomUserProvider implements UserStorageProvider, UserLookupProvid
             return false;
         }
 
-        Optional<UserEntity> userOpt = userRepository.findById(Long.parseLong(StorageId.externalId(user.getId())));
+        Optional<UsersEntity> userOpt = userRepository.findById(Long.parseLong(StorageId.externalId(user.getId())));
         if (userOpt.isEmpty()) {
             return false;
         }
 
-        UserEntity userEntity = userOpt.get();
+        UsersEntity userEntity = userOpt.get();
         UserCredentialModel cred = (UserCredentialModel) input;
         return passwordEncoder.matches(cred.getChallengeResponse(), userEntity.getPassword());
     }
@@ -122,9 +122,9 @@ public class CustomUserProvider implements UserStorageProvider, UserLookupProvid
         UserModel adapter = loadedUsers.get(identifier);
         if (adapter == null) {
             try {
-                Optional<UserEntity> userOpt = userRepository.findById(Long.parseLong(identifier));
+                Optional<UsersEntity> userOpt = userRepository.findById(Long.parseLong(identifier));
                 if (userOpt.isPresent()) {
-                    UserEntity user = userOpt.get();
+                    UsersEntity user = userOpt.get();
                     adapter = new UserAdapter(session, realmModel, model, user);
                     loadedUsers.put(identifier, adapter);
                 }
